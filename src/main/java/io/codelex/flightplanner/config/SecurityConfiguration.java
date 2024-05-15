@@ -1,6 +1,6 @@
 package io.codelex.flightplanner.config;
 
-
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,6 +25,8 @@ public class SecurityConfiguration {
                 );
 
         http.csrf(AbstractHttpConfigurer::disable);
+
+        http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED));
 
         return http.build();
     }

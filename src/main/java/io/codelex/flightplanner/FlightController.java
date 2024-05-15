@@ -15,7 +15,7 @@ public class FlightController {
     }
 
     @GetMapping("/{flightId}")
-    public ResponseEntity<Flight> getFlightDetails(@PathVariable("flightId") int flightId) {
+    public ResponseEntity<?> getFlightDetails(@PathVariable("flightId") int flightId) {
         Flight flight = flightService.getFlightById(flightId);
         if (flight != null) {
             return ResponseEntity.ok(flight);
@@ -23,6 +23,8 @@ public class FlightController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
 
     @PutMapping
     public ResponseEntity<Flight> addFlight(@RequestBody AddFlightRequest request) {
