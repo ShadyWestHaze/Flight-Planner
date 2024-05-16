@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/flights")
+@RequestMapping
 public class FlightController {
 
     private final FlightService flightService;
@@ -14,7 +14,7 @@ public class FlightController {
         this.flightService = flightService;
     }
 
-    @GetMapping("/{flightId}")
+    @GetMapping("/flights/{flightId}")
     public ResponseEntity<?> getFlightDetails(@PathVariable("flightId") int flightId) {
         Flight flight = flightService.getFlightById(flightId);
         if (flight != null) {
@@ -32,9 +32,16 @@ public class FlightController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newFlight);
     }
 
-    @DeleteMapping("/{flightId}")
+    @DeleteMapping("/flights/{flightId}")
     public ResponseEntity<Void> deleteFlight(@PathVariable("flightId") int flightId) {
         flightService.deleteFlight(flightId);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/testing-api/clear")
+    public ResponseEntity<Void> clearFlights() {
+        flightService.clearFlights();
+        return ResponseEntity.ok().build();
+    }
+
 }

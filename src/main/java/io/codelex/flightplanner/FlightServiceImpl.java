@@ -1,28 +1,39 @@
 package io.codelex.flightplanner;
 
-import org.springframework.stereotype.*;
-import java.util.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class FlightServiceImpl implements FlightService {
-    private final Map<Integer, Flight> flights = new HashMap<>();
-    private int nextId = 1;
+
+    private final FlightRepository flightRepository;
+
+    @Autowired
+    public FlightServiceImpl(FlightRepository flightRepository) {
+        this.flightRepository = flightRepository;
+    }
 
     @Override
     public Flight getFlightById(int id) {
-        return flights.getOrDefault(id, null);
+        return flightRepository.findById(id);
     }
 
     @Override
     public Flight addFlight(AddFlightRequest request) {
+        int nextId = flightRepository.getNextId();
         Flight newFlight = new Flight(nextId++, request.getDestination(), request.getDepartureTime());
-        flights.put(newFlight.getId(), newFlight);
-        return newFlight;
+        return flightRepository.save(newFlight);
     }
+
 
 
     @Override
     public void deleteFlight(int id) {
-        flights.remove(id);
+        flightRepository.deleteById(id);
+    }
+
+    @Override
+    public void clearFlights() {
+        flightRepository.clearAll();
     }
 }
