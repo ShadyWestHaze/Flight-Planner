@@ -1,5 +1,8 @@
 package io.codelex.flightplanner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Objects;
+
 public class Airport {
     @JsonProperty("country")
     public String country;
@@ -35,5 +38,17 @@ public class Airport {
 
     public void setAirport(String airport) {
         this.airport = airport;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Airport airport1)) return false;
+        return Objects.equals(getCountry(), airport1.getCountry()) && Objects.equals(getCity(), airport1.getCity()) && Objects.equals(getAirport(), airport1.getAirport());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCountry(), getCity(), getAirport());
     }
 }

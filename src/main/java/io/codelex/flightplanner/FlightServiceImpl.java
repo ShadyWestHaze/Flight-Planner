@@ -3,6 +3,8 @@ package io.codelex.flightplanner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FlightServiceImpl implements FlightService {
 
@@ -19,7 +21,13 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public Flight addFlight(Flight flight) {
+    public Flight addFlight(Flight flight) throws FlightAlreadyExistsException {
+        List<Flight> existingFlights = flightRepository.findAll();
+        for (Flight existingFlight : existingFlights) {
+            if (existingFlight.equals(flight)) {
+                throw new FlightAlreadyExistsException("Flight already exists.");
+            }
+        }
         return flightRepository.save(flight);
     }
 

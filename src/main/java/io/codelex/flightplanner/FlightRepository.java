@@ -1,7 +1,10 @@
 package io.codelex.flightplanner;
 
 import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -14,14 +17,15 @@ public class FlightRepository {
         return flights.getOrDefault(id, null);
     }
 
-    public synchronized Flight save(Flight flight) {
-
+    public synchronized Flight save(Flight flight){
         int id = getNextId();
-
         flight.setId(id);
         flights.put(id, flight);
         System.out.println(flight);
         return flight;
+    }
+    public List<Flight> findAll() {
+        return new ArrayList<>(flights.values());
     }
 
     public void deleteById(int id) {
@@ -35,6 +39,7 @@ public class FlightRepository {
     public void clearAll() {
         flights.clear();
     }
+
 
 
 }

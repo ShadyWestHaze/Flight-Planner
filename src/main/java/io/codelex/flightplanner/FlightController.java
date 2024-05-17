@@ -25,11 +25,11 @@ public class FlightController {
 
     @PutMapping("/admin-api/flights")
     public ResponseEntity<Flight> addFlight(@RequestBody Flight flight) {
-        Flight addedFlight = flightService.addFlight(flight);
-        if (addedFlight != null) {
+        try {
+            Flight addedFlight = flightService.addFlight(flight);
             return ResponseEntity.status(HttpStatus.CREATED).body(addedFlight);
-        } else {
-            return ResponseEntity.badRequest().build();
+        } catch (FlightAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
     }
 

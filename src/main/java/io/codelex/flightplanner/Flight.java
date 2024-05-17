@@ -3,6 +3,10 @@ package io.codelex.flightplanner;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
+
 public class Flight {
     @JsonProperty("id")
     private int id;
@@ -39,13 +43,20 @@ public class Flight {
     public String getDepartureTime() {
         return departureTime;
     }
+    public String getArrivalTime() {
+        return  arrivalTime;
+    }
 
     public void setDepartureTime(String departureTime) {
         this.departureTime = departureTime;
     }
 
-    public String getArrivalTime() {
-        return arrivalTime;
+    public LocalDateTime getDepartureTimeAsDateTime() {
+        return LocalDateTime.parse(departureTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    }
+
+    public LocalDateTime getArrivalTimeAsDateTime() {
+        return LocalDateTime.parse(arrivalTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
     public void setArrivalTime(String arrivalTime) {
@@ -86,6 +97,18 @@ public class Flight {
                 ", arrivalTime='" + arrivalTime + '\'' +
                 ", carrier='" + carrier + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Flight flight)) return false;
+        return Objects.equals(getFromAirport(), flight.getFromAirport()) && Objects.equals(getToAirport(), flight.getToAirport()) && Objects.equals(getDepartureTime(), flight.getDepartureTime()) && Objects.equals(getArrivalTime(), flight.getArrivalTime()) && Objects.equals(getCarrier(), flight.getCarrier());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFromAirport(), getToAirport(), getDepartureTime(), getArrivalTime(), getCarrier());
     }
 
 
