@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping
 public class FlightController {
 
     private final FlightService flightService;
@@ -24,13 +23,17 @@ public class FlightController {
         }
     }
 
-
-
-    @PutMapping
-    public ResponseEntity<Flight> addFlight(@RequestBody AddFlightRequest request) {
-        Flight newFlight = flightService.addFlight(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newFlight);
+    @PutMapping("/admin-api/flights")
+    public ResponseEntity<Flight> addFlight(@RequestBody Flight flight) {
+        Flight addedFlight = flightService.addFlight(flight);
+        if (addedFlight != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(addedFlight);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
+
+
 
     @DeleteMapping("/flights/{flightId}")
     public ResponseEntity<Void> deleteFlight(@PathVariable("flightId") int flightId) {

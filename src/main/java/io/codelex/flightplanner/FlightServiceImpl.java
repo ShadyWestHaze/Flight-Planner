@@ -19,13 +19,9 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public Flight addFlight(AddFlightRequest request) {
-        int nextId = flightRepository.getNextId();
-        Flight newFlight = new Flight(nextId++, request.getDestination(), request.getDepartureTime());
-        return flightRepository.save(newFlight);
+    public Flight addFlight(Flight flight) {
+        return flightRepository.save(flight);
     }
-
-
 
     @Override
     public void deleteFlight(int id) {

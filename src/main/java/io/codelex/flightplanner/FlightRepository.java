@@ -14,15 +14,20 @@ public class FlightRepository {
         return flights.getOrDefault(id, null);
     }
 
-    public Flight save(Flight flight) {
-        flight.setId(nextId++);
-        flights.put(flight.getId(), flight);
+    public synchronized Flight save(Flight flight) {
+
+        int id = getNextId();
+
+        flight.setId(id);
+        flights.put(id, flight);
+        System.out.println(flight);
         return flight;
     }
 
     public void deleteById(int id) {
         flights.remove(id);
     }
+
     public int getNextId() {
         return flights.size() + 1;
     }
@@ -30,4 +35,6 @@ public class FlightRepository {
     public void clearAll() {
         flights.clear();
     }
+
+
 }
