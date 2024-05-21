@@ -78,21 +78,17 @@ public class Flight {
         this.arrivalTime = arrivalTime;
     }
 
-    public String getFromAirport() {
-        return fromAirport.getAirport();
+    public Airport getFromAirport() {
+        return fromAirport;
     }
 
-    public void setFromAirport(String airportName,String city,String country) {
-        this.fromAirport = new Airport(airportName,city,country);
+
+
+    public Airport getToAirport() {
+        return toAirport;
     }
 
-    public String getToAirport() {
-        return toAirport.getAirport();
-    }
 
-    public void setToAirport(String airportName,String city,String country) {
-        this.toAirport = new Airport(airportName,city,country);
-    }
 
     public String getCarrier() {
         return carrier;

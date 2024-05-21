@@ -14,8 +14,6 @@ public class FlightController {
 
     public FlightController(FlightService flightService) {
         this.flightService = flightService;
-
-
     }
 
 
@@ -33,6 +31,7 @@ public class FlightController {
     @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/admin-api/flights")
     public Flight addFlight(@Valid @RequestBody Flight flight) {
+
         flightService.addFlight(flight);
         return flight;
     }
