@@ -21,7 +21,6 @@ public class FlightRepository {
         int id = getNextId();
         flight.setId(id);
         flights.put(id, flight);
-        System.out.println(flight);
         return flight;
     }
     public List<Flight> findAll() {

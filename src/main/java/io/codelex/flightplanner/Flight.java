@@ -2,7 +2,8 @@ package io.codelex.flightplanner;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -10,16 +11,29 @@ import java.util.Objects;
 public class Flight {
     @JsonProperty("id")
     private int id;
+
+    @NotNull
     @JsonProperty("from")
     private Airport fromAirport;
+
+    @NotNull
     @JsonProperty("to")
     private Airport toAirport;
+
+    @NotNull
+    @NotBlank
     @JsonProperty("departureTime")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private String departureTime;
+
+    @NotNull
+    @NotBlank
     @JsonProperty("arrivalTime")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private String arrivalTime;
+
+    @NotNull
+    @NotBlank
     @JsonProperty("carrier")
     private String carrier;
 
@@ -43,6 +57,7 @@ public class Flight {
     public String getDepartureTime() {
         return departureTime;
     }
+
     public String getArrivalTime() {
         return  arrivalTime;
     }
@@ -63,16 +78,16 @@ public class Flight {
         this.arrivalTime = arrivalTime;
     }
 
-    public Airport getFromAirport() {
-        return fromAirport;
+    public String getFromAirport() {
+        return fromAirport.getAirport();
     }
 
     public void setFromAirport(String airportName,String city,String country) {
         this.fromAirport = new Airport(airportName,city,country);
     }
 
-    public Airport getToAirport() {
-        return toAirport;
+    public String getToAirport() {
+        return toAirport.getAirport();
     }
 
     public void setToAirport(String airportName,String city,String country) {

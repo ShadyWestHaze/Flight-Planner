@@ -1,17 +1,23 @@
 package io.codelex.flightplanner;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 public class FlightController {
 
     private final FlightService flightService;
 
+
     public FlightController(FlightService flightService) {
         this.flightService = flightService;
+
+
     }
+
 
     @GetMapping("/flights/{flightId}")
     public ResponseEntity<?> getFlightDetails(@PathVariable("flightId") int flightId) {
@@ -23,14 +29,12 @@ public class FlightController {
         }
     }
 
+
+    @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/admin-api/flights")
-    public ResponseEntity<Flight> addFlight(@RequestBody Flight flight) {
-        try {
-            Flight addedFlight = flightService.addFlight(flight);
-            return ResponseEntity.status(HttpStatus.CREATED).body(addedFlight);
-        } catch (FlightAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-        }
+    public Flight addFlight(@Valid @RequestBody Flight flight) {
+        flightService.addFlight(flight);
+        return flight;
     }
 
 
@@ -46,5 +50,4 @@ public class FlightController {
         flightService.clearFlights();
         return ResponseEntity.ok().build();
     }
-
 }
