@@ -48,11 +48,13 @@ public class FlightServiceImpl implements FlightService {
         return flightRepository.save(flight);
     }
 
-
-
     @Override
     public void deleteFlight(int id) {
-        flightRepository.deleteById(id);
+        Flight flight = flightRepository.findById(id);
+
+            flightRepository.deleteById(id);
+
+
     }
 
     @Override

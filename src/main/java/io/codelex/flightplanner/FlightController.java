@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
@@ -17,7 +18,7 @@ public class FlightController {
     }
 
 
-    @GetMapping("/flights/{flightId}")
+    @GetMapping("/admin-api/flights/{flightId}")
     public ResponseEntity<?> getFlightDetails(@PathVariable("flightId") int flightId) {
         Flight flight = flightService.getFlightById(flightId);
         if (flight != null) {
@@ -38,10 +39,12 @@ public class FlightController {
 
 
 
-    @DeleteMapping("/flights/{flightId}")
+    @DeleteMapping("/admin-api/flights/{flightId}")
     public ResponseEntity<Void> deleteFlight(@PathVariable("flightId") int flightId) {
         flightService.deleteFlight(flightId);
-        return ResponseEntity.noContent().build();
+
+            return ResponseEntity.ok().build();
+
     }
 
     @PostMapping("/testing-api/clear")
