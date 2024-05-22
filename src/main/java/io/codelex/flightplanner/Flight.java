@@ -49,51 +49,37 @@ public class Flight {
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-
     public String getDepartureTime() {
         return departureTime;
     }
-
     public String getArrivalTime() {
         return  arrivalTime;
     }
-
     public void setDepartureTime(String departureTime) {
         this.departureTime = departureTime;
     }
-
     public LocalDateTime getDepartureTimeAsDateTime() {
         return LocalDateTime.parse(departureTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
-
     public LocalDateTime getArrivalTimeAsDateTime() {
         return LocalDateTime.parse(arrivalTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
-
     public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
-
     public Airport getFromAirport() {
         return fromAirport;
     }
-
-
-
     public Airport getToAirport() {
         return toAirport;
     }
 
-
-
     public String getCarrier() {
         return carrier;
     }
-
     public void setCarrier(String carrier) {
         this.carrier = carrier;
     }

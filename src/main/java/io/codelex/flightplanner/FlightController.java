@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 
 @RestController
 public class FlightController {
@@ -28,6 +30,10 @@ public class FlightController {
         }
     }
 
+    @GetMapping("/api/flights/{flightID}")
+    public ResponseEntity<?> getFlightDetailsForApi(@PathVariable("flightID") int flightID) {
+        return getFlightDetails(flightID);
+    }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/admin-api/flights")
@@ -51,5 +57,15 @@ public class FlightController {
     public ResponseEntity<Void> clearFlights() {
         flightService.clearFlights();
         return ResponseEntity.ok().build();
+    }
+    @PostMapping("/api/flights/search")
+    public ResponseEntity<PageResult<Flight>> searchFlights(@Valid @RequestBody SearchFlightsRequest request) {
+        if (request.getFrom() == null || request.getTo() == null || request.getDepartureDate() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid request parameters");
+        }
+
+        List<Flight> flights = flightService.searchFlights(request);
+        PageResult<Flight> result = new PageResult<>(0, flights.size(), flights);
+        return ResponseEntity.ok(result);
     }
 }

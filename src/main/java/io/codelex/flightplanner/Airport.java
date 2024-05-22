@@ -40,27 +40,21 @@ public class Airport {
             throw new IllegalArgumentException("City cannot be null or empty.");
         }
     }
-
     public String getCountry() {
         return country;
     }
-
     public void setCountry(String country) {
         this.country = country;
     }
-
     public String getCity() {
         return city;
     }
-
     public void setCity(String city) {
         this.city = city;
     }
-
     public String getAirport() {
         return this.airport;
     }
-
     public void setAirport(String airport) {
         this.airport = airport;
     }
