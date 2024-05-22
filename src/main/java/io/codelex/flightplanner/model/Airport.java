@@ -1,4 +1,4 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class Airport {
-
     @NotNull
     @NotBlank
     @JsonProperty("country")
@@ -66,7 +65,6 @@ public class Airport {
         return Objects.equals(getCountry(), airport1.getCountry()) && Objects.equals(getCity(), airport1.getCity()) && Objects.equals(getAirport(), airport1.getAirport());
     }
 
-
     @Override
     public String toString() {
         return "airport{" +
@@ -80,6 +78,4 @@ public class Airport {
     public int hashCode() {
         return Objects.hash(getCountry(), getCity(), getAirport());
     }
-
-
 }

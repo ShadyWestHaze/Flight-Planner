@@ -1,18 +1,20 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.service;
 
+import io.codelex.flightplanner.model.Airport;
+import io.codelex.flightplanner.model.Flight;
+import io.codelex.flightplanner.repository.FlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AirportService {
+public class AirportServiceImpl implements AirportService {
 
     private final FlightRepository flightRepository;
 
     @Autowired
-    public AirportService(FlightRepository flightRepository) {
+    public AirportServiceImpl(FlightRepository flightRepository) {
         this.flightRepository = flightRepository;
     }
 

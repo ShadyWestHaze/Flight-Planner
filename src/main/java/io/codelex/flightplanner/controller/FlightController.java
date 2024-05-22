@@ -1,5 +1,9 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.controller;
 
+import io.codelex.flightplanner.model.Flight;
+import io.codelex.flightplanner.model.PageResult;
+import io.codelex.flightplanner.model.SearchFlightsRequest;
+import io.codelex.flightplanner.service.FlightService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +22,6 @@ public class FlightController {
     public FlightController(FlightService flightService) {
         this.flightService = flightService;
     }
-
 
     @GetMapping("/admin-api/flights/{flightId}")
     public ResponseEntity<?> getFlightDetails(@PathVariable("flightId") int flightId) {
@@ -42,7 +45,6 @@ public class FlightController {
         flightService.addFlight(flight);
         return flight;
     }
-
 
 
     @DeleteMapping("/admin-api/flights/{flightId}")

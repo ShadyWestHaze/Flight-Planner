@@ -1,5 +1,7 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.controller;
 
+import io.codelex.flightplanner.model.Airport;
+import io.codelex.flightplanner.service.AirportServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,16 +14,16 @@ import java.util.List;
 @RestController
 public class AirportController {
 
-    private final AirportService airportService;
+    private final AirportServiceImpl airportServiceImpl;
 
     @Autowired
-    public AirportController(AirportService airportService) {
-        this.airportService = airportService;
+    public AirportController(AirportServiceImpl airportServiceImpl) {
+        this.airportServiceImpl = airportServiceImpl;
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/api/airports")
     public List<Airport> searchAirports(@RequestParam String search) {
-        return airportService.searchAirports(search);
+        return airportServiceImpl.searchAirports(search);
     }
 }

@@ -1,4 +1,7 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.service;
+
+import io.codelex.flightplanner.model.Flight;
+import io.codelex.flightplanner.model.SearchFlightsRequest;
 
 import java.util.List;
 

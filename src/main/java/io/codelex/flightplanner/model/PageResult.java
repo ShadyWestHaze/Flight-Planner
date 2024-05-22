@@ -1,4 +1,4 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,4 +1,4 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -61,6 +61,12 @@ public class Flight {
     public void setDepartureTime(String departureTime) {
         this.departureTime = departureTime;
     }
+    public String getCarrier() {
+        return carrier;
+    }
+    public void setCarrier(String carrier) {
+        this.carrier = carrier;
+    }
     public LocalDateTime getDepartureTimeAsDateTime() {
         return LocalDateTime.parse(departureTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
@@ -75,13 +81,6 @@ public class Flight {
     }
     public Airport getToAirport() {
         return toAirport;
-    }
-
-    public String getCarrier() {
-        return carrier;
-    }
-    public void setCarrier(String carrier) {
-        this.carrier = carrier;
     }
 
     @Override
@@ -107,6 +106,4 @@ public class Flight {
     public int hashCode() {
         return Objects.hash(getFromAirport(), getToAirport(), getDepartureTime(), getArrivalTime(), getCarrier());
     }
-
-
 }
