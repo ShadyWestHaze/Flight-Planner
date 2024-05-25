@@ -42,5 +42,5 @@ public class SearchFlightsRequest {
     public void setDepartureDate(@NotNull String departureDate) {
         this.departureDate = departureDate;
     }
-}
+}//comment for pull
 
