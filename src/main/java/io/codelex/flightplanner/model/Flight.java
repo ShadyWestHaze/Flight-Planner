@@ -22,7 +22,6 @@ public class Flight {
 
     @NotNull
     @NotBlank
-    @JsonProperty("departureTime")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private String departureTime;
 

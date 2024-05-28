@@ -23,18 +23,19 @@ public class FlightController {
         this.flightService = flightService;
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/admin-api/flights/{flightId}")
-    public ResponseEntity<?> getFlightDetails(@PathVariable("flightId") int flightId) {
+    public Flight getFlightDetails(@PathVariable("flightId") int flightId) {
         Flight flight = flightService.getFlightById(flightId);
-        if (flight != null) {
-            return ResponseEntity.ok(flight);
-        } else {
-            return ResponseEntity.notFound().build();
+        if (flight == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+        return flight;
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/api/flights/{flightID}")
-    public ResponseEntity<?> getFlightDetailsForApi(@PathVariable("flightID") int flightID) {
+    public Flight getFlightDetailsForApi(@PathVariable("flightID") int flightID) {
         return getFlightDetails(flightID);
     }
 
@@ -47,27 +48,26 @@ public class FlightController {
     }
 
 
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/admin-api/flights/{flightId}")
-    public ResponseEntity<Void> deleteFlight(@PathVariable("flightId") int flightId) {
+    public void deleteFlight(@PathVariable("flightId") int flightId) {
         flightService.deleteFlight(flightId);
-
-            return ResponseEntity.ok().build();
-
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/testing-api/clear")
-    public ResponseEntity<Void> clearFlights() {
+    public void clearFlights() {
         flightService.clearFlights();
-        return ResponseEntity.ok().build();
     }
+
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/api/flights/search")
-    public ResponseEntity<PageResult<Flight>> searchFlights(@Valid @RequestBody SearchFlightsRequest request) {
+    public PageResult<Flight> searchFlights(@Valid @RequestBody SearchFlightsRequest request) {
         if (request.getFrom() == null || request.getTo() == null || request.getDepartureDate() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid request parameters");
         }
 
         List<Flight> flights = flightService.searchFlights(request);
-        PageResult<Flight> result = new PageResult<>(0, flights.size(), flights);
-        return ResponseEntity.ok(result);
+        return new PageResult<>(0, flights.size(), flights);
     }
 }

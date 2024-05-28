@@ -1,6 +1,7 @@
 package io.codelex.flightplanner.controller;
 
 import io.codelex.flightplanner.model.Airport;
+import io.codelex.flightplanner.service.AirportService;
 import io.codelex.flightplanner.service.AirportServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,8 @@ import java.util.List;
 @RestController
 public class AirportController {
 
-    private final AirportServiceImpl airportServiceImpl;
+    private final AirportService airportServiceImpl;
 
-    @Autowired
     public AirportController(AirportServiceImpl airportServiceImpl) {
         this.airportServiceImpl = airportServiceImpl;
     }
