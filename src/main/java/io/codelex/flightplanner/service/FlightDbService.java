@@ -33,8 +33,11 @@ public class FlightDbService implements FlightService {
         flight.setFromAirport(airportDbService.saveAirportIfNew(flight.getFromAirport()));
         flight.setToAirport(airportDbService.saveAirportIfNew(flight.getToAirport()));
 
-        LocalDateTime departureTime = flight.getDepartureTimeAsDateTime();
-        LocalDateTime arrivalTime = flight.getArrivalTimeAsDateTime();
+        LocalDateTime departureTime = flight.getDepartureTime();
+        LocalDateTime arrivalTime = flight.getArrivalTime();
+        if (departureTime == null || arrivalTime == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Departure time and arrival time must not be null");
+        }
         if (arrivalTime.isBefore(departureTime) || arrivalTime.equals(departureTime)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Arrival time must be after departure time");
         }
@@ -49,6 +52,8 @@ public class FlightDbService implements FlightService {
         if (existingFlight.isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Flight already exists");
         }
+
+
 
         return flightDbRepository.save(flight);
     }
@@ -68,6 +73,6 @@ public class FlightDbService implements FlightService {
         if (request.getFrom().equalsIgnoreCase(request.getTo())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "From and To airports cannot be the same.");
         }
-        return flightDbRepository.findAll().stream().filter(flight -> flight.getFromAirport().getAirport().equalsIgnoreCase(request.getFrom())).filter(flight -> flight.getToAirport().getAirport().equalsIgnoreCase(request.getTo())).filter(flight -> flight.getDepartureTime().substring(0, 10).equals(request.getDepartureDate().substring(0, 10))).collect(Collectors.toList());
+        return flightDbRepository.searchFlights(request.getFrom(), request.getTo(), request.getDepartureDate());
     }
 }

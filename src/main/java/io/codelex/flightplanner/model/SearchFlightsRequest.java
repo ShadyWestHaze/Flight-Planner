@@ -30,6 +30,4 @@ public class SearchFlightsRequest {
     public @NotNull String getDepartureDate() {
         return departureDate;
     }
-
 }
-

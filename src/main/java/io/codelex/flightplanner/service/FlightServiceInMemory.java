@@ -3,24 +3,22 @@ package io.codelex.flightplanner.service;
 import io.codelex.flightplanner.model.Flight;
 import io.codelex.flightplanner.model.SearchFlightsRequest;
 import io.codelex.flightplanner.repository.FlightInMemoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 public class FlightServiceInMemory implements FlightService {
 
     private final FlightInMemoryRepository flightInMemoryRepository;
 
-
     public FlightServiceInMemory(FlightInMemoryRepository flightInMemoryRepository) {
         this.flightInMemoryRepository = flightInMemoryRepository;
     }
 
+    @Override
     public Flight getFlightById(Long id) {
         Flight flight = flightInMemoryRepository.findById(id);
         if (flight == null) {
@@ -28,21 +26,18 @@ public class FlightServiceInMemory implements FlightService {
         }
         return flight;
     }
+
     @Override
     public Flight addFlight(Flight flight) {
-        LocalDateTime departureTime = flight.getDepartureTimeAsDateTime();
-        LocalDateTime arrivalTime = flight.getArrivalTimeAsDateTime();
+        LocalDateTime departureTime = flight.getDepartureTime();
+        LocalDateTime arrivalTime = flight.getArrivalTime();
 
         if (arrivalTime.isBefore(departureTime) || arrivalTime.equals(departureTime)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Arrival time must be after departure time");
         }
 
-        String fromAirportCode = "";
-        String toAirportCode = "";
-        if (flight.getFromAirport().getAirport() != null && flight.getToAirport() != null && flight.getFromAirport().getCity() != null && flight.getToAirport().getCity() != null && flight.getFromAirport().getCountry() != null && flight.getToAirport().getCountry() != null && !flight.getFromAirport().getCountry().isBlank() && !flight.getToAirport().getCountry().isBlank() && !flight.getToAirport().getAirport().isBlank() && !flight.getFromAirport().getAirport().isBlank() && !flight.getToAirport().getCity().isBlank() && !flight.getFromAirport().getCity().isBlank()) {
-            fromAirportCode = flight.getFromAirport().getAirport().trim();
-            toAirportCode = flight.getToAirport().getAirport().trim();
-        }
+        String fromAirportCode = flight.getFromAirport().getAirport().trim();
+        String toAirportCode = flight.getToAirport().getAirport().trim();
 
         if (fromAirportCode.equalsIgnoreCase(toAirportCode)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot fly to the same airport");
@@ -75,8 +70,7 @@ public class FlightServiceInMemory implements FlightService {
         return flightInMemoryRepository.findAll().stream()
                 .filter(flight -> flight.getFromAirport().getAirport().equalsIgnoreCase(request.getFrom()))
                 .filter(flight -> flight.getToAirport().getAirport().equalsIgnoreCase(request.getTo()))
-                .filter(flight -> flight.getDepartureTime().substring(0, 10).equals(request.getDepartureDate()))
+                .filter(flight -> flight.getDepartureTime().toLocalDate().toString().equals(request.getDepartureDate()))
                 .collect(Collectors.toList());
     }
-
 }

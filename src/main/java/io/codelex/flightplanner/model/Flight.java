@@ -30,16 +30,15 @@ public class Flight {
     @JsonProperty("to")
     private Airport toAirport;
 
-    @NotNull
-    @NotBlank
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private String departureTime;
 
-    @NotNull
-    @NotBlank
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime  departureTime;
+
+
+
     @JsonProperty("arrivalTime")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private String arrivalTime;
+    private LocalDateTime  arrivalTime;
 
     @NotNull
     @NotBlank
@@ -53,22 +52,15 @@ public class Flight {
         this.id = id;
     }
 
-    public String getDepartureTime() {
-        return departureTime.substring(0, 16);
-    }
-
-    public String getArrivalTime() {
-        return arrivalTime.substring(0, 16);
+    public LocalDateTime getDepartureTime() {
+        return departureTime;
     }
 
 
-    public LocalDateTime getDepartureTimeAsDateTime() {
-        return LocalDateTime.parse(departureTime.substring(0, 16), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    public LocalDateTime getArrivalTime() {
+        return arrivalTime;
     }
 
-    public LocalDateTime getArrivalTimeAsDateTime() {
-        return LocalDateTime.parse(arrivalTime.substring(0, 16), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-    }
 
     public String getCarrier() {
         return carrier;
@@ -106,7 +98,11 @@ public class Flight {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Flight flight)) return false;
-        return Objects.equals(getFromAirport(), flight.getFromAirport()) && Objects.equals(getToAirport(), flight.getToAirport()) && Objects.equals(getDepartureTime(), flight.getDepartureTime()) && Objects.equals(getArrivalTime(), flight.getArrivalTime()) && Objects.equals(getCarrier(), flight.getCarrier());
+        return Objects.equals(getFromAirport(), flight.getFromAirport()) &&
+                Objects.equals(getToAirport(), flight.getToAirport()) &&
+                Objects.equals(getDepartureTime(), flight.getDepartureTime()) &&
+                Objects.equals(getArrivalTime(), flight.getArrivalTime()) &&
+                Objects.equals(getCarrier(), flight.getCarrier());
     }
 
     @Override
